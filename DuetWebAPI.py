@@ -138,6 +138,20 @@ class DuetWebAPI:
             URL=(f'{self._base_url}'+'/machine/file/'+filename)
         r = self.requests.get(URL)
         return(r.text.splitlines()) # replace('\n',str(chr(0x0a))).replace('\t','    '))
+    def getFile(self):
+        if (self.pt == 2):
+            URL=(f'{self._base_url}'+'/rr_fileinfo')
+            r = self.requests.get(URL)
+            j = self.json.loads(r.text)
+            q=str.split( j['fileName'],'/')
+            return q[len(q)-1]
+
+        if (self.pt == 3):
+            URL=(f'{self._base_url}'+'/machine/status')
+            r = self.requests.get(URL)
+            j = self.json.loads(r.text)
+            q=str.split( j['fileName'],'/')
+            return q[len(q)-1]
 
 ####
 # The following methods provide services built on the atomics above. 
